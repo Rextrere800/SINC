@@ -1,4 +1,5 @@
 from django.db import models
+from django.forms import ModelForm
 
 # Create your models here.
 class Usuario(models.Model):
@@ -12,3 +13,8 @@ class Perfil(models.Model):
     description = models.CharField(max_length=500)
     career = models.CharField(max_length=40)
     interests = models.CharField(max_length=128)
+
+class Register(ModelForm):
+    class Meta:
+        model = Usuario
+        fields = ["username","email","password"]

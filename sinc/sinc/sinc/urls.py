@@ -27,6 +27,5 @@ urlpatterns = [
     path('register',views.register),
     path('registered',views.registered,name='registered'),
     path('prueba',views.prueba),
-    path('probado',views.probado,name='probado')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
