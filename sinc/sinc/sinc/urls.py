@@ -21,10 +21,14 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.login),
-    path('register',views.register),
-    path('registered',views.registered,name='registered'),
+    path('register/',views.register),
+    path('registered/',views.registered,name='registered'),
+    path('crear_perfil/', views.crear_perfil, name='crear_perfil'),
+    path('perfil_creado/', views.perfil_creado, name='perfil_creado'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
 

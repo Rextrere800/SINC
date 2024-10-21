@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-from .models import *
-#from django.https import HttpRepo
-# Create your views here.
+from .models import * 
+from .forms import PerfilForm
+from Matches.models import Matches
+
 def login(request):
     if request.method == 'POST':
         form = Login(request.POST)
@@ -57,3 +58,75 @@ def registered(request):
                     #print(username in Usuario.objects.values_list('username',flat=True))
                     return redirect("/")
     return redirect('/register')
+
+def crear_perfil(request):
+    if request.method == 'POST':
+        form = PerfilForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('perfil_creado')  
+    else:
+        form = PerfilForm()
+    
+    return render(request, 'crear_perfil.html', {'form': form})
+
+def perfil_creado(request):
+    return render(request, 'perfil_creado.html')
+
+def FiltroIntereses():
+    principalid = 16
+    
+    p = Perfil.objects.values('id')
+    idlista = [int(p['id']) for p in Perfil.objects.values('id')]
+    print(idlista)
+    
+  
+    try:
+        indice = idlista.index(int(principalid))
+    except ValueError:
+        print(f"El ID principal {principalid} no está en la lista.")
+        return
+    
+   
+    p = Perfil.objects.values('interests')
+    Plista = [p['interests'] for p in Perfil.objects.values('interests')]
+    
+    interesprincipal = Plista.pop(indice) + ";"
+    idprincipal = idlista.pop(indice)
+    
+    listausar=[]
+    c=0
+
+    for n in Plista:
+        x=idlista[c]
+        listausar.append([n,x])
+        c+=1
+    print(listausar)
+
+
+    listaprincipal = []
+    
+    x = ''
+    for n in interesprincipal:
+        if n != ";":
+            x += n
+        else:
+            print(x)
+            listaprincipal.append(x)
+            x = ""
+    print(listaprincipal)
+
+    indicescoincidencias = []
+    
+    for n in listaprincipal:
+        for z in listausar:
+            if n in z[0] and z[1] not in indicescoincidencias:
+                indicescoincidencias.append(z[1])
+
+    
+    coincidenciasid = ""
+    for n in indicescoincidencias:
+        coincidenciasid += str(n) + ";"
+    print(coincidenciasid)
+
+    Matches.objects.update_or_create(id=idprincipal, defaults={'posiblesmatches': coincidenciasid})

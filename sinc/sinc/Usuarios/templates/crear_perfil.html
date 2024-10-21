@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crear Perfil</title>
+</head>
+<body>
+    <h1>Crear tu Perfil</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Crear Perfil</button>
+    </form>
+</body>
+</html>
