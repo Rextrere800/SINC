@@ -16,6 +16,9 @@ def login(request):
                     login_check=True
         if login_check:
             print('Iniciado sesion')
+            # revisar si tiene intereses
+            # si no tiene intereses, redirigir a crear intereses
+            # si tiene intereses, redirigir a la pagina principal
     return render(request, 'login.html')
 def register(request):
     return render(request, 'register.html')
@@ -130,3 +133,5 @@ def FiltroIntereses():
     print(coincidenciasid)
 
     Matches.objects.update_or_create(id=idprincipal, defaults={'posiblesmatches': coincidenciasid})
+
+# get perfil
