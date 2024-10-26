@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import * 
 from .forms import PerfilForm
 from Matches.models import Matches
+
 
 def login(request):
     if request.method == 'POST':
@@ -57,21 +58,28 @@ def registered(request):
                 if passCheck and passMail and passUser:
                     Usuario.objects.create(username=username,email=email,password=password)
                     print(f"Usuario creado con los siguientes datos: \nnombre de usuario: {username}\ncontraseña: {password}\ncorreo: {email}")
+                    #instance = form.save(commit=False)
                     #print(Usuario.objects.values_list("username",flat=True))
                     #print(username in Usuario.objects.values_list('username',flat=True))
-                    return redirect("/")
+                    return redirect("crear_perfil")
     return redirect('/register')
 
 def crear_perfil(request):
+    #usuario = Usuario.objects.get(id=usuario_id)
+    #print(usuario)
     if request.method == 'POST':
         form = PerfilForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('perfil_creado')  
+            return redirect('perfil_creado',perfil_id=form.id)  
     else:
         form = PerfilForm()
     
     return render(request, 'crear_perfil.html', {'form': form})
+
+def perfil(request, perfil_id):
+    perfil=get_object_or_404(Perfil, id=perfil_id)
+    return render(request, 'perfiles.html',{'perfil':perfil})
 
 def perfil_creado(request):
     return render(request, 'perfil_creado.html')
@@ -133,5 +141,6 @@ def FiltroIntereses():
     print(coincidenciasid)
 
     Matches.objects.update_or_create(id=idprincipal, defaults={'posiblesmatches': coincidenciasid})
+
 
 # get perfil

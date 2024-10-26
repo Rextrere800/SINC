@@ -29,6 +29,7 @@ urlpatterns = [
     path('registered/',views.registered,name='registered'),
     path('crear_perfil/', views.crear_perfil, name='crear_perfil'),
     path('perfil_creado/', views.perfil_creado, name='perfil_creado'),
+    path('perfil/',views.perfil,name='perfil')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 
