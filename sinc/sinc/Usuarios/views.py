@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import * 
 from .forms import PerfilForm
 from Matches.models import Matches
-
+import os
 
 def login(request):
     if request.method == 'POST':
@@ -70,23 +70,29 @@ def crear_perfil(request):
     if request.method == 'POST':
         form = PerfilForm(request.POST)
         if form.is_valid():
+            perfil = form.save(commit=False)
+            os.system("CLS")
+            try:
+                print("La id es",perfil.id)
+            except:
+                print("fallo")
             form.save()
-            return redirect('perfil_creado',perfil_id=form.id)  
+            request.session['perfil_id'] = perfil.id
+            return redirect('perfil_creado') 
     else:
         form = PerfilForm()
     
     return render(request, 'crear_perfil.html', {'form': form})
 
-def perfil(request, perfil_id):
+def perfil(request):
+    perfil_id = request.session.get('perfil_id')
     perfil=get_object_or_404(Perfil, id=perfil_id)
     return render(request, 'perfiles.html',{'perfil':perfil})
 
 def perfil_creado(request):
     return render(request, 'perfil_creado.html')
 
-def FiltroIntereses():
-    principalid = 16
-    
+def FiltroIntereses(principalid):
     p = Perfil.objects.values('id')
     idlista = [int(p['id']) for p in Perfil.objects.values('id')]
     print(idlista)

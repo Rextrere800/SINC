@@ -16,20 +16,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from Usuarios import views
+from Usuarios import views as usr_views
 from django.conf.urls.static import static
 from django.conf import settings
+from Matches import views as matchs_views
 
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.login),
-    path('register/',views.register),
-    path('registered/',views.registered,name='registered'),
-    path('crear_perfil/', views.crear_perfil, name='crear_perfil'),
-    path('perfil_creado/', views.perfil_creado, name='perfil_creado'),
-    path('perfil/',views.perfil,name='perfil')
+    path('', usr_views.login),
+    path('register/',usr_views.register),
+    path('registered/',usr_views.registered,name='registered'),
+    path('crear_perfil/', usr_views.crear_perfil, name='crear_perfil'),
+    path('perfil_creado/', usr_views.perfil_creado, name='perfil_creado'),
+    path('perfil/',usr_views.perfil,name='perfil'),
+    path('match/',matchs_views.match,name='match'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 
