@@ -3,12 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Mi Perfil</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="perfiles.css">
 </head>
 <body>
-    <h2>Nombre de usuario: {{ perfil.username }}</h2>
-    <h2>Nombre real: {{ perfil.real_name }}</h2>
-    <h2>Descripcion: {{ perfil.description }}</h2>
-    <h2>Carrera: {{ perfil.career }}</h2>
-    <h2>Intereses: {{ perfil.interests }}</h2>
+    <div class="container">
+        <div class="profile-card">
+            <div class="profile-info">
+                <h2 id ="username">Nombre de usuario: {{ perfil.username }}</h2>
+                <h2 id = "realname">Nombre real: {{ perfil.real_name }}</h2>
+                <h2 id = "userdescription">Descripcion: {{ perfil.description }}</h2>
+                <h2 id ="career">Carrera: {{ perfil.career }}</h2>
+                <h2 id = "interests">Intereses: {{ perfil.interests }}</h2>
+                <h3></h3>
+            </div>
+            <div class="buttons">
+            <button id="dislike-btn" class="btn dislike">❌</button>
+            <button id="like-btn" class="btn like">💙</button>
+            </div>
+        </div>
+    </div>
+    <div id="match-modal" class="hidden">
+        <div class="match-content">
+            <h2>¡Es un match!</h2>
+            <p>Has hecho match con <span id="match-name"></span>!</p>
+            <button id="close-modal">Volver</button>
+        </div>   
+    </div>
 </body>
 </html>

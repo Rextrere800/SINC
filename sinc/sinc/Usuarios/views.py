@@ -17,9 +17,6 @@ def login(request):
                     login_check=True
         if login_check:
             print('Iniciado sesion')
-            # revisar si tiene intereses
-            # si no tiene intereses, redirigir a crear intereses
-            # si tiene intereses, redirigir a la pagina principal
     return render(request, 'login.html')
 def register(request):
     return render(request, 'register.html')
