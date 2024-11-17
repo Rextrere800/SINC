@@ -51,7 +51,7 @@ def match(request):
             try:
                 perfil_id = request.session.get('perfil_id')
             except:
-                redirect('login')
+                return redirect('login')
     # Aqui usamos la funcion FiltroIntereses con tal de generar los posibles matches
             if matching:
                 print('match hecho!!!!')
@@ -60,7 +60,11 @@ def match(request):
             elif not matching:
                 perfil.no_matches=no_matches[0]+';'+str(matchAnterior.id)
                 perfil.save()
-    matchActual = random.choice(posibles_matches[0].split(';'))
+    try:
+        matchActual = random.choice(posibles_matches[0].split(';'))
+    except IndexError:
+        print("ERROR: no hay usuarios para hacer match, redirigiendo al usuario a su perfil")
+        return redirect('perfil')
     while matchActual == '':
         matchActual = random.choice(posibles_matches[0].split(';'))
     request.session['matchActual'] = matchActual
