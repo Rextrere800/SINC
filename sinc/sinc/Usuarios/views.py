@@ -16,7 +16,7 @@ def login(request):
                 if a.password == password:
                     login_check=True
         if login_check:
-            print('Iniciado sesion')
+            print('\033[92m[INFORMACION]:\033[00m Iniciado sesion')
     return render(request, 'login.html')
 def register(request):
     return render(request, 'register.html')
@@ -54,7 +54,7 @@ def registered(request):
                         passCheck = True
                 if passCheck and passMail and passUser:
                     Usuario.objects.create(username=username,email=email,password=password)
-                    print(f"Usuario creado con los siguientes datos: \nnombre de usuario: {username}\ncontraseña: {password}\ncorreo: {email}")
+                    print(f"\033[92m[INFORMACION]:\033[00m Usuario creado con los siguientes datos: \nnombre de usuario: {username}\ncontraseña: {password}\ncorreo: {email}")
                     #instance = form.save(commit=False)
                     #print(Usuario.objects.values_list("username",flat=True))
                     #print(username in Usuario.objects.values_list('username',flat=True))
@@ -68,11 +68,10 @@ def crear_perfil(request):
         form = PerfilForm(request.POST)
         if form.is_valid():
             perfil = form.save(commit=False)
-            os.system("CLS")
             try:
-                print("La id es",perfil.id)
+                print("\033[92m[INFORMACION]:\033[00m La id es",perfil.id)
             except:
-                print("fallo")
+                print("\033[91m[ERROR]:\033[00m fallo al crear perfil")
             form.save()
             request.session['perfil_id'] = perfil.id
             return redirect('perfil_creado') 
@@ -92,13 +91,13 @@ def perfil_creado(request):
 def FiltroIntereses(principalid):
     p = Perfil.objects.values('id')
     idlista = [int(p['id']) for p in Perfil.objects.values('id')]
-    print(idlista)
+    print("\033[92m[INFORMACION]:\033[00m",idlista)
     
   
     try:
         indice = idlista.index(int(principalid))
     except ValueError:
-        print(f"El ID principal {principalid} no está en la lista.")
+        print(f"\033[91m[ERROR]:\033[00m El ID principal {principalid} no está en la lista.")
         return
     
    
@@ -115,7 +114,7 @@ def FiltroIntereses(principalid):
         x=idlista[c]
         listausar.append([n,x])
         c+=1
-    print(listausar)
+    print("\033[92m[INFORMACION]:\033[00m",listausar)
 
 
     listaprincipal = []
@@ -125,10 +124,10 @@ def FiltroIntereses(principalid):
         if n != ";":
             x += n
         else:
-            print(x)
+            print("\033[92m[INFORMACION]:\033[00m",x)
             listaprincipal.append(x)
             x = ""
-    print(listaprincipal)
+    print("\033[92m[INFORMACION]:\033[00m",listaprincipal)
 
     indicescoincidencias = []
     
@@ -141,7 +140,7 @@ def FiltroIntereses(principalid):
     coincidenciasid = ""
     for n in indicescoincidencias:
         coincidenciasid += str(n) + ";"
-    print(coincidenciasid)
+    print("\033[92m[INFORMACION]:\033[00m",coincidenciasid)
 
     Matches.objects.update_or_create(id=idprincipal, defaults={'posiblesmatches': coincidenciasid})
 
