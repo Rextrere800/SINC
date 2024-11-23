@@ -1,11 +1,20 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'perfil_cread0.css' %}">
     <title>Perfil Creado</title>
 </head>
 <body>
-    <h1>¡Tu perfil ha sido creado con éxito!</h1>
-    <a href="/">Volver al inicio</a>
-    <a href="{% url 'perfil' %}">Ver perfil</a>
+    <div class="container">
+        <div class="perfil">
+            <h1>¡Tu perfil ha sido creado con éxito!</h1>
+            <div class="button-container">
+            <a href="{% url 'match' %}" class="button">Ir al inicio</a>
+            <a href="{% url 'perfil' %}" class="button">Ver perfil</a>
+        </div>
+    </div>
 </body>
 </html>
