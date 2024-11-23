@@ -7,5 +7,6 @@ class Matches(models.Model):
     posiblesmatches = models.CharField(max_length=1000)
     matches = models.CharField(max_length=1000)
     no_matches = models.CharField(max_length=1000)
+    matchdefinitivo = models.CharField(max_length=1000)
 class MatchForm(forms.Form):
     match = forms.CharField(label="match", max_length=2)

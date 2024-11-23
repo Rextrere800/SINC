@@ -54,10 +54,10 @@ def registered(request):
                         passCheck = True
                 if passCheck and passMail and passUser:
                     Usuario.objects.create(username=username,email=email,password=password)
-                    print(f"\033[92m[INFORMACION]:\033[00m Usuario creado con los siguientes datos: \nnombre de usuario: {username}\ncontraseña: {password}\ncorreo: {email}")
+                    #print(f"\033[92m[INFORMACION]:\033[00m Usuario creado con los siguientes datos: \nnombre de usuario: {username}\ncontraseña: {password}\ncorreo: {email}")
                     instance = form.save(commit=False)
-                    print(Usuario.objects.values_list("username",flat=True))
-                    print(username in Usuario.objects.values_list('username',flat=True))
+                    #print(Usuario.objects.values_list("username",flat=True))
+                    #print(username in Usuario.objects.values_list('username',flat=True))
                     return redirect("crear_perfil")
     return redirect('/register')
 
@@ -92,10 +92,13 @@ def FiltroIntereses(principalid):
     perfil_matches, created = Matches.objects.get_or_create(id=principalid)
     matches = perfil_matches.matches.split(';') if perfil_matches.matches else []
     no_matches = perfil_matches.no_matches.split(';') if perfil_matches.no_matches else []
-    print("\033[92m[INFORMACION]:\033[00m",principalid)
+    print("\033[92m[INFORMACIONNNN]:\033[00m",matches)
+
+    print("\033[92m[INFORMACIONNNN]:\033[00m",no_matches)
+    #print("\033[92m[INFORMACION]:\033[00m",principalid)
     p = Perfil.objects.values('id')
     idlista = [int(p['id']) for p in Perfil.objects.values('id')]
-    print("\033[92m[INFORMACION]:\033[00m",idlista)
+    #print("\033[92m[INFORMACION]:\033[00m",idlista)
     
   
     try:
@@ -131,7 +134,7 @@ def FiltroIntereses(principalid):
             print("\033[92m[INFORMACION]:\033[00m",x)
             listaprincipal.append(x)
             x = ""
-    print("\033[92m[INFORMACION]:\033[00m",listaprincipal)
+    #print("\033[92m[INFORMACION]:\033[00m",listaprincipal)
 
     indicescoincidencias = []
     
@@ -140,13 +143,14 @@ def FiltroIntereses(principalid):
             if n in z[0] and z[1] not in indicescoincidencias:
                 indicescoincidencias.append(z[1])
 
-    print("\033[92m[INFORMACIOOON]:\033[00m",matches)
-    print("\033[92m[INFORMACIOOON]:\033[00m",no_matches)
+    #print("\033[92m[INFORMACIOOON]:\033[00m",matches)
+    #print("\033[92m[INFORMACIOOON]:\033[00m",no_matches)
     coincidenciasid = ""
+    print("\033[92m[INDICECOINCIDENCIAS]:\033[00m",indicescoincidencias)
     for n in indicescoincidencias:
-        if str(n) not in matches or str(n) not in no_matches:
+        if str(n) not in matches and str(n) not in no_matches:
             coincidenciasid += str(n) + ";"
-    print("\033[92m[INFORMACION]:\033[00m",coincidenciasid)
+    print("\033[92m[COINCIDENCIASID]:\033[00m",coincidenciasid)
 
     Matches.objects.update_or_create(id=idprincipal, defaults={'posiblesmatches': coincidenciasid})
 

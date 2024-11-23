@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>¡Match Confirmado!</title>
+</head>
+<body>
+    <h1>¡Has hecho match con {{ perfil_match.real_name }}!</h1>
+    <p>Información de contacto: {{ perfil_match.Metodo_contacto}}</p>
+    <p>Intereses comunes: {{ perfil_match.interests }}</p>
+    <a href="{% url 'perfil' %}">Volver a tu perfil</a>
+</body>
+</html>
