@@ -15,6 +15,9 @@ def match(request):
     #print(f'\n\n\n\nID:{perfil.id}\nmatches:{perfil.matches}\nno_matches:{perfil.no_matches}\n\n\n\n')
     madeMatches = Matches.objects.raw('''SELECT id,matches FROM Matches_matches WHERE id = {}'''.format(perfil_id))
     posibles_matches = Matches.objects.raw('''SELECT id,posiblesmatches FROM Matches_matches WHERE id = {}'''.format(perfil_id))
+    posibles_matches1 = (next(iter(posibles_matches)).posiblesmatches).split(";")
+    del posibles_matches1[-1]
+    print(posibles_matches1)
     no_matches = Matches.objects.raw('''SELECT id,no_matches FROM Matches_matches WHERE id = {}'''.format(perfil_id))
     madeMatches = [a.matches for a in madeMatches]
     posibles_matches = [a.posiblesmatches for a in posibles_matches]
@@ -24,6 +27,7 @@ def match(request):
             posibles_matches.pop(a)
         elif posibles_matches[a] in madeMatches[0]:
             posibles_matches.pop(a)
+    print(posibles_matches)
     # Llamamos al id del perfil iniciado, en caso de no encontrarlo, redirigir a login
     if request.method == 'POST':
         matchAnterior=request.session.get('matchActual')
@@ -40,17 +44,26 @@ def match(request):
             if matching:
                 print('\033[92m[INFORMACION]:\033[00m ',perfil_id,'hizo match con',matchAnterior.id)
                 perfil.matches=madeMatches[0]+';'+str(matchAnterior.id)
-                perfil.save()
             elif not matching:
                 perfil.no_matches=no_matches[0]+';'+str(matchAnterior.id)
-                perfil.save()
+            stringvacio=""
+            print(posibles_matches1)
+            if str(matchAnterior.id) in posibles_matches1:
+                posibles_matches1.remove(str(matchAnterior.id))
+            for x in posibles_matches1:
+                stringvacio+=x+";"
+            print(stringvacio)
+            perfil.posiblesmatches=stringvacio
+            perfil.save() 
+    perfil_matches, created = Matches.objects.get_or_create(id=perfil_id)
+    posibles_matches = perfil_matches.posiblesmatches.split(';') if perfil_matches.posiblesmatches else []     
     try:
-        matchActual = random.choice(posibles_matches[0].split(';'))
+        matchActual = random.choice(posibles_matches)
     except IndexError:
         print("\033[91m[ERROR]:\033[00m no hay usuarios para hacer match, redirigiendo al usuario a su perfil")
         return redirect('perfil')
     while matchActual == '':
-        matchActual = random.choice(posibles_matches[0].split(';'))
+        matchActual = random.choice(posibles_matches)
     request.session['matchActual'] = matchActual
     #print(f'\n\n\n\nID:{perfil.id}\nmatches:{perfil.matches}\nno_matches:{perfil.no_matches}\n\n\n\n')
     matchActual=get_object_or_404(Perfil, id=matchActual)

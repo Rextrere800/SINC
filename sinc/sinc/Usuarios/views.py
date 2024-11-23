@@ -55,9 +55,9 @@ def registered(request):
                 if passCheck and passMail and passUser:
                     Usuario.objects.create(username=username,email=email,password=password)
                     print(f"\033[92m[INFORMACION]:\033[00m Usuario creado con los siguientes datos: \nnombre de usuario: {username}\ncontraseña: {password}\ncorreo: {email}")
-                    #instance = form.save(commit=False)
-                    #print(Usuario.objects.values_list("username",flat=True))
-                    #print(username in Usuario.objects.values_list('username',flat=True))
+                    instance = form.save(commit=False)
+                    print(Usuario.objects.values_list("username",flat=True))
+                    print(username in Usuario.objects.values_list('username',flat=True))
                     return redirect("crear_perfil")
     return redirect('/register')
 
@@ -89,6 +89,10 @@ def perfil_creado(request):
     return render(request, 'perfil_creado.html')
 
 def FiltroIntereses(principalid):
+    perfil_matches, created = Matches.objects.get_or_create(id=principalid)
+    matches = perfil_matches.matches.split(';') if perfil_matches.matches else []
+    no_matches = perfil_matches.no_matches.split(';') if perfil_matches.no_matches else []
+    print("\033[92m[INFORMACION]:\033[00m",principalid)
     p = Perfil.objects.values('id')
     idlista = [int(p['id']) for p in Perfil.objects.values('id')]
     print("\033[92m[INFORMACION]:\033[00m",idlista)
@@ -136,10 +140,12 @@ def FiltroIntereses(principalid):
             if n in z[0] and z[1] not in indicescoincidencias:
                 indicescoincidencias.append(z[1])
 
-    
+    print("\033[92m[INFORMACIOOON]:\033[00m",matches)
+    print("\033[92m[INFORMACIOOON]:\033[00m",no_matches)
     coincidenciasid = ""
     for n in indicescoincidencias:
-        coincidenciasid += str(n) + ";"
+        if str(n) not in matches or str(n) not in no_matches:
+            coincidenciasid += str(n) + ";"
     print("\033[92m[INFORMACION]:\033[00m",coincidenciasid)
 
     Matches.objects.update_or_create(id=idprincipal, defaults={'posiblesmatches': coincidenciasid})
