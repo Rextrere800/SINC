@@ -1,0 +1,70 @@
+/* Ajustes generales */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #fceeb5, #b3d4ff); /* Amarillo pastel y azul pastel */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #333;
+}
+
+.container {
+    text-align: center;
+}
+
+.perfil {
+    background: rgba(255, 255, 255, 0.9); /* Fondo blanco semitransparente */
+    color: #333;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
+    margin: auto;
+}
+
+h1 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+p {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Botones (aplicado también a enlaces con clase 'button') */
+.button {
+    display: inline-block; /* Para que se comporte como un botón */
+    text-decoration: none; /* Elimina subrayado en enlaces */
+    background-color: #f6d365; /* Amarillo pastel */
+    color: #fff;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 0.5rem; /* Espaciado entre botones */
+}
+
+.button:hover {
+    background-color: #b3d4ff; /* Azul pastel */
+    transform: translateY(-2px); /* Efecto de elevación al pasar el ratón */
+}
+
+.button:active {
+    background-color: #99c1f2; /* Azul un poco más oscuro */
+    transform: translateY(0); /* Botón vuelve a su posición original */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra reducida */
+}
