@@ -77,7 +77,20 @@ def match(request):
     request.session['matchActual'] = matchActual
     #print(f'\n\n\n\nID:{perfil.id}\nmatches:{perfil.matches}\nno_matches:{perfil.no_matches}\n\n\n\n')
     matchActual=get_object_or_404(Perfil, id=matchActual)
-    return render(request,'matches.html',{"matchActual":matchActual})
+    matches = []
+    tipo_contacto=[]
+    nose = madeMatches[0].split(';')
+    del nose[0]
+    for a in nose:
+        a=get_object_or_404(Perfil, id=a)
+        contactos = a.Metodo_contacto.split(';')
+        for contacto in len(contactos):
+            tipo_contacto.append()
+            tipo_contacto.append(contactos[contacto].split('.')[2])
+        matches.append({'username':a.username,'platform':tipo_contacto,'url':contactos})
+        tipo_contacto=[]
+    print(f'\n\n\n\n\n\n','matches hechos: ', (madeMatches),'\n\n\n\n')
+    return render(request,'matches.html',{"matchActual":matchActual,'matches':matches})
 
 def match_confirmacion(request, match_id):
     perfil_match = get_object_or_404(Perfil, id=match_id)
