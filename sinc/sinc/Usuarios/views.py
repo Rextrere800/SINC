@@ -69,6 +69,7 @@ def registered(request):
 def crear_perfil(request):
     #usuario = Usuario.objects.get(id=usuario_id)
     #print(usuario)
+    nombrematch=Matches.username
     if request.method == 'POST':
         form = PerfilForm(request.POST)
         if form.is_valid():
@@ -106,6 +107,9 @@ def perfil_creado(request):
 
 def FiltroIntereses(principalid):
     perfil_matches, created = Matches.objects.get_or_create(id=principalid)
+    perfil = Perfil.objects.get(usuario_id=principalid)
+    perfil_matches.username = perfil.real_name
+    perfil_matches.save()
     matches = perfil_matches.matches.split(';') if perfil_matches.matches else []
     no_matches = perfil_matches.no_matches.split(';') if perfil_matches.no_matches else []
     p = Perfil.objects.values('usuario_id')

@@ -36,6 +36,7 @@ def match(request):
     #print(posibles_matches)
     # Llamamos al id del perfil iniciado, en caso de no encontrarlo, redirigir a login
     print("ooooo")
+    matchdef=str(perfil.matchdefinitivo)
     if request.method == 'POST':
         print("iiiiii")
         matchAnterior=request.session.get('matchActual')
@@ -89,22 +90,27 @@ def match(request):
     request.session['matchActual'] = matchActual
     #print(f'\n\n\n\nID:{perfil.id}\nmatches:{perfil.matches}\nno_matches:{perfil.no_matches}\n\n\n\n')
     matchActual=get_object_or_404(Perfil, usuario_id=matchActual)
-    print(matchActual)
-    return render(request,'matches.html',{"matchActual":matchActual})
-    #matchActual=get_object_or_404(Perfil, id=matchActual)
-    #matches = []
-    #tipo_contacto=[]
-    #nose = madeMatches[0].split(';')
-    #del nose[0]
-    #for a in nose:
-        #a=get_object_or_404(Perfil, id=a)
-        #contactos = a.Metodo_contacto.split(';')
-        #for contacto in range(len(contactos)):
-            #tipo_contacto.append(contactos[contacto].split('.')[1])
-        #matches.append({'username':a.username,'platform':tipo_contacto,'url':contactos})
-        #tipo_contacto=[]
-    #print(f'\n\n\n\n\n\n','matches hechos: ', (madeMatches),'\n\n\n\n')
-    #return render(request,'matches.html',{"matchActual":matchActual,'matches':matches})
+    matches = []
+    tipo_contacto=[]
+    if matchdef != ";" and matchdef:
+        nose = matchdef.split(';')
+        print("\033[92m[STRINGVACIO]:\033[00m",nose)
+        del nose[0]
+        for a in nose:
+            a=get_object_or_404(Perfil, usuario_id=a)
+            contactos = a.Metodo_contacto.split(';')
+            print("\033[92m[contacto]:\033[00m",contactos)
+            for contacto in range(len(contactos)):
+                if '.' in contactos[contacto]:
+                    tipo_contacto.append(contactos[contacto].split('.')[1])
+                else:
+                    tipo_contacto.append("Numero de telefono")
+            print("\033[92m[Tipo_contacto]:\033[00m",tipo_contacto)
+            matches.append({'username':a.real_name,'platform':tipo_contacto,'url':contactos})
+            print("\033[92m[Matches]:\033[00m",matches)
+            tipo_contacto=[]
+    print(f'\n\n\n\n\n\n','matches hechos: ', (matchdef),'\n\n\n\n')
+    return render(request,'matches.html',{"matchActual":matchActual,'matches':matches})
 
 def match_confirmacion(request, match_id):
     perfil_match = get_object_or_404(Perfil, usuario_id=match_id)
