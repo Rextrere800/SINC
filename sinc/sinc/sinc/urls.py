@@ -33,6 +33,7 @@ urlpatterns = [
     path('perfil/',usr_views.perfil,name='perfil'),
     path('match/',matchs_views.match,name='match'),
     path('match_confirmacion/<int:match_id>/', matchs_views.match_confirmacion, name='match_confirmacion'),
+    path("nomatch/" , matchs_views.nomatch,name="nomatch"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 

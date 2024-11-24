@@ -1,9 +1,12 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <link rel="icon" href="{% static 'logo.png' %}?v=1">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SINC - haz tu match!</title>
+    <link rel="icon" href="{% static 'logo.png' %}?v=1">
     <style>
         body {
             margin: 0;
@@ -25,7 +28,7 @@
         }
 
         .logo img {
-            height: 40px;
+            height: 80px;
             margin-right: 10px;
         }
 
@@ -79,6 +82,7 @@
             overflow-y: auto; 
             overflow-x: hidden;
             max-height: 300px;
+            pointer-events: auto;
         }
 
         .menu-dropdown:hover .menu-dropdown-content {
@@ -166,7 +170,7 @@
 <body>
     <div class="header">
         <div class="logo">
-            <img src="sinc/logo.png" alt="Logo de la página" width="100">
+            <img src="{% static 'logo.png' %}" alt="Logo de la página" width="100">
             <h1>SINC</h1>
         </div>
     </div>

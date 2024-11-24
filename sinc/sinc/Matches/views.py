@@ -7,6 +7,9 @@ from Usuarios.views import FiltroIntereses
 
 Usuariogustar=''
 
+def nomatch(request):
+    return render(request, "nomatch.html")
+
 def match(request):
     perfil_id = request.session.get('usuario_id')
     if not perfil_id:
@@ -50,10 +53,17 @@ def match(request):
                 perfil_id = request.session.get('usuario_id')
             except:
                 return redirect('login')
+            Otroperfil, created=Matches.objects.get_or_create(id=matchAnterior.usuario_id)
+            matches_otroperfil = Otroperfil.matches.split(";") if Otroperfil.matches else []
     # Aqui usamos la funcion FiltroIntereses con tal de generar los posibles matches
             if matching:
                 #print('\033[92m[INFORMACION]:\033[00m ',perfil_id,'hizo match con',matchAnterior.id)
                 perfil.matches=madeMatches[0]+';'+str(matchAnterior.usuario_id)
+                if str(perfil_id) in matches_otroperfil:
+                    matchdef=str(perfil.matchdefinitivo)+";"+str(matchAnterior.usuario_id)
+                    perfil.matchdefinitivo=matchdef
+                    perfil.save()
+                    return redirect('match_confirmacion', match_id=matchAnterior.usuario_id)
             elif not matching:
                 perfil.no_matches=no_matches[0]+';'+str(matchAnterior.usuario_id)
             stringvacio=""
@@ -66,15 +76,10 @@ def match(request):
             #print("\033[92m[STRINGVACIO]:\033[00m",stringvacio)
             perfil.posiblesmatches=stringvacio
             perfil.save()
-        Otroperfil, created=Matches.objects.get_or_create(id=matchAnterior.usuario_id)
-        matches_otroperfil = Otroperfil.matches.split(";") if Otroperfil.matches else []
+        
         print("estoo")
         print(matches_otroperfil)
-        if str(perfil_id) in matches_otroperfil:
-            matchdef=str(perfil.matchdefinitivo)+";"+str(matchAnterior.usuario_id)
-            perfil.matchdefinitivo=matchdef
-            perfil.save()
-            return redirect('match_confirmacion', match_id=matchAnterior.usuario_id)
+        
     print("ññññññ")
     perfil_matches, created = Matches.objects.get_or_create(id=perfil_id)
     print(perfil_id)
@@ -84,7 +89,7 @@ def match(request):
         matchActual = random.choice(posibles_matches)
     except IndexError:
         print("\033[91m[ERROR]:\033[00m no hay usuarios para hacer match, redirigiendo al usuario a su perfil")
-        return redirect('perfil')
+        return redirect('nomatch')
     while matchActual == '':
         matchActual = random.choice(posibles_matches)
     request.session['matchActual'] = matchActual
