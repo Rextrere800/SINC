@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SINC - Sistema Interactivo para Nuevos Círculos</title>
+    <title>SINC - haz tu match!</title>
     <style>
         body {
             margin: 0;
@@ -150,8 +150,11 @@
                 <div class="menu-lines"></div>
             </div>
             <div class="menu-dropdown-content">
-                <h2>Matches : {{.... }} </h2>
-            </div>
+                <h2>Matches:</h2>
+                {% for match in matches %}
+                    <p>{{ match.username }}</p>
+                {% endfor %}
+            </div>            
         </div>
         <p>Menú</p>
     </nav>
@@ -169,9 +172,5 @@
             </form>
         </div>
     </main>
-    <footer class="footer">
-        <p>Créditos: Matías Prieto, Sergio Ramírez, Montserrat Ravello, Damian Ríos, Santiago Peyloubet</p>
-        <p>Estudiantes de la Universidad Técnica Federico Santa María</p>
-    </footer>
 </body>
 </html>
