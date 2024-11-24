@@ -8,6 +8,7 @@ def login(request):
     if request.method == 'POST':
         form = Login(request.POST)
         login_check=False
+        usuario_id = None
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
@@ -15,8 +16,10 @@ def login(request):
             for a in real_password:
                 if a.password == password:
                     login_check=True
+                    usuario_id = a.id
         if login_check:
-            print('\033[92m[INFORMACION]:\033[00m Iniciado sesion')
+            request.session['usuario_id'] = usuario_id
+            return redirect("match")
     return render(request, 'login.html')
 def register(request):
     return render(request, 'register.html')
@@ -53,7 +56,9 @@ def registered(request):
 
                         passCheck = True
                 if passCheck and passMail and passUser:
-                    Usuario.objects.create(username=username,email=email,password=password)
+                    
+                    usuario = Usuario.objects.create(username=username, email=email, password=password)
+                    request.session['usuario_id'] = usuario.id
                     #print(f"\033[92m[INFORMACION]:\033[00m Usuario creado con los siguientes datos: \nnombre de usuario: {username}\ncontraseña: {password}\ncorreo: {email}")
                     instance = form.save(commit=False)
                     #print(Usuario.objects.values_list("username",flat=True))
@@ -72,7 +77,16 @@ def crear_perfil(request):
                 print("\033[92m[INFORMACION]:\033[00m La id es",perfil.id)
             except:
                 print("\033[91m[ERROR]:\033[00m fallo al crear perfil")
-            form.save()
+            usuario_id = request.session.get('usuario_id')
+            print("\033[92m[INFORMACIOON]:\033[00m La id es",usuario_id)
+            if not usuario_id:
+                # Si no hay un usuario en la sesión, redirige al inicio de sesión o muestra un error
+                return redirect('login')
+
+            # Asigna el usuario al perfil
+            perfil.usuario = Usuario.objects.get(id=usuario_id)
+            perfil.save()  # Guarda el perfil con el usuario asignado
+
             request.session['perfil_id'] = perfil.id
             return redirect('perfil_creado') 
     else:
@@ -92,12 +106,8 @@ def FiltroIntereses(principalid):
     perfil_matches, created = Matches.objects.get_or_create(id=principalid)
     matches = perfil_matches.matches.split(';') if perfil_matches.matches else []
     no_matches = perfil_matches.no_matches.split(';') if perfil_matches.no_matches else []
-    print("\033[92m[INFORMACIONNNN]:\033[00m",matches)
-
-    print("\033[92m[INFORMACIONNNN]:\033[00m",no_matches)
-    #print("\033[92m[INFORMACION]:\033[00m",principalid)
-    p = Perfil.objects.values('id')
-    idlista = [int(p['id']) for p in Perfil.objects.values('id')]
+    p = Perfil.objects.values('usuario_id')
+    idlista = [int(p['usuario_id']) for p in Perfil.objects.values('usuario_id')]
     #print("\033[92m[INFORMACION]:\033[00m",idlista)
     
   

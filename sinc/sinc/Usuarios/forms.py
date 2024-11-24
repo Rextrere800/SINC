@@ -9,7 +9,7 @@ class Register(forms.Form):
 class PerfilForm(forms.ModelForm):
     class Meta:
         model = Perfil
-        fields = ['username', 'real_name', 'description', 'career', 'interests', "Metodo_contacto"]
+        fields = ['real_name', 'description', 'career', 'interests', "Metodo_contacto"]
         widgets = {
             'description': forms.Textarea(attrs={'rows': 3}),
             'interests': forms.TextInput(attrs={'placeholder': 'Intereses separados por punto y coma'}),
