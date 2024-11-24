@@ -96,7 +96,9 @@ def crear_perfil(request):
 
 def perfil(request):
     perfil_id = request.session.get('perfil_id')
-    perfil=get_object_or_404(Perfil, id=perfil_id)
+    perfil=get_object_or_404(Perfil, usuario_id=perfil_id)
+    print("ola")
+    print(perfil_id)
     return render(request, 'perfiles.html',{'perfil':perfil})
 
 def perfil_creado(request):
