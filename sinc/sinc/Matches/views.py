@@ -84,9 +84,8 @@ def match(request):
     for a in nose:
         a=get_object_or_404(Perfil, id=a)
         contactos = a.Metodo_contacto.split(';')
-        for contacto in len(contactos):
-            tipo_contacto.append()
-            tipo_contacto.append(contactos[contacto].split('.')[2])
+        for contacto in range(len(contactos)):
+            tipo_contacto.append(contactos[contacto].split('.')[1])
         matches.append({'username':a.username,'platform':tipo_contacto,'url':contactos})
         tipo_contacto=[]
     print(f'\n\n\n\n\n\n','matches hechos: ', (madeMatches),'\n\n\n\n')

@@ -150,7 +150,11 @@
                 <div class="menu-lines"></div>
             </div>
             <div class="menu-dropdown-content">
-                <h2>Matches : {{.... }} </h2>
+                <ul>
+                    {% for match in matches %}
+                        <h2>Matches : {{ match.username }} </h2>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
         <p>Menú</p>
@@ -161,6 +165,7 @@
             <h2>Descripción: {{ matchActual.description }}</h2>
             <h2>Carrera: {{ matchActual.career }}</h2>
             <h2>Intereses: {{ matchActual.interests }}</h2>
+            
             <form method="post">
                 {% csrf_token %}
                 <label for="match">¿Desear hacer match? (si/no)</label>
