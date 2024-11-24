@@ -4,10 +4,46 @@
 <head>
     <title>¡Match Confirmado!</title>
     <link rel="icon" href="{% static 'logo.png' %}?v=1">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #4a90e2;
+            color: #fefbd8;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #fefbd8;
+            font-size: 2.5em;
+            margin-top: 20px;
+        }
+
+        p {
+            font-size: 1.2em;
+            margin: 15px 0;
+        }
+
+        a {
+            display: inline-block;
+            text-decoration: none;
+            color: #4a90e2; 
+            background-color: #fefbd8; 
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1.1em;
+            margin-top: 20px;
+        }
+
+        a:hover {
+            background-color: #e5e1b9; 
+        }
+    </style>
 </head>
 <body>
     <h1>¡Has hecho match con {{ perfil_match.real_name }}!</h1>
-    <p>Información de contacto: {{ perfil_match.Metodo_contacto}}</p>
+    <p>Información de contacto: {{ perfil_match.Metodo_contacto }}</p>
     <p>Intereses comunes: {{ perfil_match.interests }}</p>
     <a href="{% url 'perfil' %}">Volver a tu perfil</a>
 </body>

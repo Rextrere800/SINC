@@ -6,7 +6,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SINC - haz tu match!</title>
-    <link rel="icon" href="{% static 'logo.png' %}?v=1">
     <style>
         body {
             margin: 0;
@@ -34,13 +33,14 @@
 
         .logo h1 {
             margin: 0;
-            font-size: 24px;
+            font-size: 32px; /* Aumentado de 24px */
             color: #6666ff;
         }
 
         .menu {
             display: flex;
             align-items: center;
+            justify-content: space-between;
             background-color: #e6f2ff;
             padding: 10px 20px;
             border-bottom: 1px solid #cce0ff;
@@ -95,6 +95,21 @@
             font-size: 14px;
         }
 
+        .view-profile {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+            text-decoration: none;
+            color: #007bff;
+            font-size: 16px;
+        }
+
+        .view-profile img {
+            width: 24px;
+            height: 24px;
+            margin-right: 5px;
+        }
+
         .content {
             display: flex;
             justify-content: center;
@@ -142,29 +157,6 @@
             font-size: 14px;
             margin-top: 20px;
         }
-        .matches-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .match-item {
-            margin-bottom: 10px;
-            padding: 5px 10px;
-            border-bottom: 1px solid #ccc;
-        }
-
-        .match-item h3 {
-            margin: 5px 0;
-            font-size: 16px;
-            color: #007bff;
-        }
-
-        .match-item p {
-        margin: 0;
-        font-size: 14px;
-        }
-
     </style>
 </head>
 <body>
@@ -197,6 +189,9 @@
             </div>            
         </div>
         <p>Menú</p>
+        <a href="{% url 'perfil' %}" class="view-profile">
+            👤 Ver Perfil
+        </a>
     </nav>
     <main class="content">
         <div class="card">

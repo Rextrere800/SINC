@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Perfil</title>
+    <link rel="icon" href="{% static 'logo.png' %}?v=1">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -42,41 +43,44 @@
             font-size: 1rem;
         }
 
-        .edit-button {
+        .edit-button,
+        .back-button {
             display: block;
             width: 100%;
             padding: 10px;
             font-size: 1rem;
             color: #fff;
-            background-color: #4682b4; /* Azul fuerte */
+            background-color:#427eaf; 
             border: none;
             border-radius: 5px;
             cursor: pointer;
             text-align: center;
             text-decoration: none;
+            margin-top: 15px;
         }
 
-        .edit-button:hover {
-            background-color: #5a9bd6; /* Azul más claro */
+        .edit-button:hover,
+        .back-button:hover {
+            background-color: #5a9bd6;
         }
     </style>
 </head>
-<link rel="icon" href="{% static 'logo.png' %}?v=1">
 <body>
     <div class="profile-container">
         <h1>Mi Perfil</h1>
         <div class="profile-item">
-            <h2 id = "realname">Nombre real: {{ perfil.real_name }}</h2>
-
+            <h2 id="realname">Nombre real: {{ perfil.real_name }}</h2>
         </div>
         <div class="profile-item">
-            <h2 id = "userdescription">Descripcion: {{ perfil.description }}</h2>
+            <h2 id="userdescription">Descripción: {{ perfil.description }}</h2>
         </div>
         <div class="profile-item">
-            <h2 id ="career">Carrera: {{ perfil.career }}</h2>
+            <h2 id="career">Carrera: {{ perfil.career }}</h2>
         </div>
         <div class="profile-item">
-            <h2 id = "interests">Intereses: {{ perfil.interests }}</h2>
-
+            <h2 id="interests">Intereses: {{ perfil.interests }}</h2>
+        </div>
+        <a href="{% url 'match' %}" class="back-button">Volver al inicio</a>
+    </div>
 </body>
 </html>
